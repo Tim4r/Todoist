@@ -1,2 +1,5 @@
 # Todoist
-Task manager (.NET, EF, SQL Server)
+Task manager (.NET, C#, EF, SQL Server)
+
+How to install a project?
+1) 

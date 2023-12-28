@@ -5,4 +5,4 @@ How to install a project?
 1) Install Visual Studio
 2) Install SQL Server
 3) Run the "Create Database" file and execute the query
-4) Run 
+4) Run the build itself

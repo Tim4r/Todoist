@@ -1,8 +1,10 @@
 # Todoist
-Task manager (.NET, C#, EF, SQL Server)
+Task manager called "Todoist" (.NET, C#, EF, SQL Server)
 
 How to install a project?
-1) Install Visual Studio
-2) Install SQL Server
-3) Run the "Create Database" file and execute the query
-4) Run the build itself
+1) Install Visual Studio on your PC
+2) Install SQL Server on your PC
+3) Open folder "For SQL Server"
+4) Execute a query from the "TodoistCreateDatabase.sql" file
+5) Execute a query from the "AddDataInTodoistDatabase.sql" file
+6) Run the build itself

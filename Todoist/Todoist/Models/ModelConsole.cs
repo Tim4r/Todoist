@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Todoist.DataAccess;
+﻿using Todoist.DataAccess;
 using Todoist.Entities;
 using Todoist.Enum;
 

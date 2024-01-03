@@ -45,7 +45,7 @@ namespace Todoist.Controllers
             }
             while (!isValid);
 
-            _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+            _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
             _viewConsole.OutputCategoryNames(categories);
             choiceCategory = CheckValidation(_viewConsole.GetInput(), categories.Count);
             categoryId = categories[Convert.ToInt32(choiceCategory) - 1].Id;

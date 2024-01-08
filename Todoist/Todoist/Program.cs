@@ -13,7 +13,6 @@ namespace Todoist
             var modelConsole = new ModelConsole();
             var viewConsole = new ViewConsole();
             var controllerConsole = new ControllerConsole(modelConsole, viewConsole);
-            modelConsole.GetGoalsAndCategories();
 
             while (true)
             {

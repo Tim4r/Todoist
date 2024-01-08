@@ -25,10 +25,10 @@ namespace Todoist.Views
                 Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
         }
 
-        internal void OutputCategories(List<Category> categories)
+        internal void OutputCategories(List<Category> categories, List<Goal> goals)
         {
             for (int i = 0; i < categories.Count; i++)
-                Console.WriteLine($" {i + 1}. {categories[i]}");
+                Console.WriteLine($" {i + 1}. {categories[i].ToString(goals.Where(x => x.CategoryID == i+1).ToList())}");
         }
 
         internal void OutputOfAvaliableStatuses(string[] statuses)

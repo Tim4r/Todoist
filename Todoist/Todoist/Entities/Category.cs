@@ -1,19 +1,20 @@
-﻿namespace Todoist.Entities
+﻿using System.Collections;
+
+namespace Todoist.Entities
 {
     public class Category
     {
         public int Id { get; set; }
         public required string NameCategory { get; set; }
-        public ICollection<Goal> Goals { get; set; }
 
-        public override string? ToString()
+        public string? ToString(List<Goal> goals)
         {
-            string goals = "";
-            foreach (var goal in Goals) 
+            string newgoals = "";
+            foreach (var goal in goals) 
             {
-                goals += $"{goal}\n";
+                newgoals += $"{goal}\n";
             }
-            return $"Category - {NameCategory}\n{goals}";
+            return $"Category - {NameCategory}\n{newgoals}";
         }
     }
 }

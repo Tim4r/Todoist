@@ -6,28 +6,16 @@ namespace Todoist.Model
 {
     internal class ModelConsole
     {
-        internal List<Goal>? Goals { get; private set; }
-        internal List<Category>? Categories { get; private set; }
-
-        internal void GetGoalsAndCategories()
-        {
-            using (var context = new ApplicationContext())
-            {
-                Goals = context.Goals.ToList();
-                Categories = context.Categories.ToList();
-            }
-        }
-
         internal Func<string[]> GetStatuses = () => System.Enum.GetNames(typeof(StatusType));
 
-        internal List<Goal> SearchElementsByTitleAndDescription(string searchWord)
+        internal List<Goal> SearchElementsByTitleAndDescription(List<Goal> goals, string searchWord)
         {
-            return Goals.FindAll(item => item.Title.Contains(searchWord) || item.Description.Contains(searchWord));
+            return goals.FindAll(item => item.Title.Contains(searchWord) || item.Description.Contains(searchWord));
         }
 
-        internal Goal? SearchElementByIndex(int menuItem)
+        internal Goal? SearchElementByIndex(List<Goal> goals, int menuItem)
         {
-            return Goals[--menuItem];
+            return goals[--menuItem];
         }
 
         internal string SearchEnumByIndex(string index)
@@ -37,9 +25,31 @@ namespace Todoist.Model
             return Convert.ToString(elementOfEnum);
         }
 
+        internal List<Category> GetCategories()
+        {
+            List<Category> categories;
+            using (var context = new ApplicationContext())
+            {
+                 categories = new List<Category>();
+                categories = context.Categories.ToList();
+            }
+            return categories;
+        }
+
+        internal List<Goal> GetGoals()
+        {
+            List<Goal> goals;
+            using (var context = new ApplicationContext())
+            {
+                goals = new List<Goal>();
+                goals = context.Goals.ToList();
+            }
+            return goals;
+        }
+
         internal void Add(string title, string description, string status, int categoryId)
         {
-            var category = Categories.Find(x => x.Id == categoryId);
+            //var category = Categories.Find(x => x.Id == categoryId);
             var newGoal = new Goal()
             {
                 Title = title,
@@ -55,11 +65,11 @@ namespace Todoist.Model
                 context.SaveChanges();
             }
 
-            newGoal.Category = category;
-            Goals.Add(newGoal);
+            //newGoal.Category = category;
+            //Goals.Add(newGoal);
         }
 
-        internal void Update(Goal goalForUpdate, List<string> newProperties, int menuItem)
+        internal void Update(List<Goal> goals, Goal goalForUpdate, List<string> newProperties, int menuItem)
         {
             int indexGoal = --menuItem;
             if (newProperties[0] != null)
@@ -71,7 +81,7 @@ namespace Todoist.Model
             if (newProperties[3] != null)
                 goalForUpdate.Status = newProperties[3];
 
-            Goals[indexGoal] = goalForUpdate;
+            goals[indexGoal] = goalForUpdate;
                 
             using (var context = new ApplicationContext())
                 context.SaveChanges();
@@ -79,7 +89,6 @@ namespace Todoist.Model
 
         internal void Delete(Goal searchElementGoal)
         {
-            Goals.Remove(searchElementGoal);
             using (var context = new ApplicationContext())
             {
                 context.Goals.Remove(searchElementGoal);

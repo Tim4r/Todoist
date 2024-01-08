@@ -18,7 +18,7 @@ namespace Todoist.Controllers
         
         internal void AddGoal()
         {
-            List<Category> categories = _modelConsole.Categories;
+            List<Category> categories = _modelConsole.GetCategories();
             string[] statuses = _modelConsole.GetStatuses();
             int categoryId;
             string choiceCategory;
@@ -56,16 +56,19 @@ namespace Todoist.Controllers
             string status = _modelConsole.SearchEnumByIndex(choiceStatus);
 
             _modelConsole.Add(title, description, status, categoryId);
+            _viewConsole.Display(AppConsts.Common.TaskAdded);
         }
 
         internal void ViewGoalList()
         {
-            List<Category> categories = _modelConsole.Categories;
-            _viewConsole.OutputCategories(categories);
+            List<Category> categories = _modelConsole.GetCategories();
+            List<Goal> goals = _modelConsole.GetGoals();
+            _viewConsole.OutputCategories(categories, goals);
         }
 
         internal void FindGoal()
         {
+            List<Goal> goals = _modelConsole.GetGoals();
             List<Goal> results;
             string searchWord;
             bool isValid;
@@ -79,7 +82,7 @@ namespace Todoist.Controllers
             }
             while (!isValid);
 
-            results = _modelConsole.SearchElementsByTitleAndDescription(searchWord);
+            results = _modelConsole.SearchElementsByTitleAndDescription(goals, searchWord);
             if (results.Count == 0)
                 _viewConsole.Display(AppConsts.Suggestion.Enter.NotFound);
             else
@@ -88,14 +91,14 @@ namespace Todoist.Controllers
 
         internal void UpdateGoal()
         {
-            List<Goal> goals = _modelConsole.Goals;
+            List<Goal> goals = _modelConsole.GetGoals();
             List<string> updatedProperties = new List<string>();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal + "\n");
             _viewConsole.OutputGoals(goals);
             choice = CheckValidation(_viewConsole.GetInput(), goals.Count);
-            var goalForUpdate = _modelConsole.SearchElementByIndex(Convert.ToInt32(choice));
+            var goalForUpdate = _modelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
             _viewConsole.Display(goalForUpdate);
 
             string titleOfGoal = GetNewTitleOfGoal();
@@ -110,19 +113,20 @@ namespace Todoist.Controllers
             string statusOfGoal = GetNewStatusOfGoal();
             updatedProperties.Add(statusOfGoal);
 
-            _modelConsole.Update(goalForUpdate, updatedProperties, Convert.ToInt32(choice));
+            _modelConsole.Update(goals, goalForUpdate, updatedProperties, Convert.ToInt32(choice));
         }
 
         internal void DeleteGoal()
         {
+            List<Goal> Goals = _modelConsole.GetGoals();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal);
-            _viewConsole.OutputGoals(_modelConsole.Goals);
+            _viewConsole.OutputGoals(Goals);
 
-            choice = CheckValidation(_viewConsole.GetInput(), _modelConsole.Goals.Count);
+            choice = CheckValidation(_viewConsole.GetInput(), Goals.Count);
 
-            var searchedElementGoal = _modelConsole.SearchElementByIndex(Convert.ToInt32(choice));
+            var searchedElementGoal = _modelConsole.SearchElementByIndex(Goals, Convert.ToInt32(choice));
             _viewConsole.Display(searchedElementGoal);
 
             _viewConsole.Display(AppConsts.Question.ForDelete.Confirmation + AppConsts.Common.Menu.YesNoSelectable);
@@ -176,7 +180,7 @@ namespace Todoist.Controllers
             if (choice == "1")
             {
                 _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
-                categories = _modelConsole.Categories;
+                categories = _modelConsole.GetCategories();
                 _viewConsole.OutputCategoryNames(categories);
                 choice = CheckValidation(_viewConsole.GetInput(), categories.Count);
                 int newCategoryInt = Convert.ToInt32(choice);

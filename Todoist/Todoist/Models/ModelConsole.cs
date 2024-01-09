@@ -1,4 +1,5 @@
-﻿using Todoist.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using Todoist.DataAccess;
 using Todoist.Entities;
 using Todoist.Enum;
 
@@ -30,7 +31,7 @@ namespace Todoist.Model
             List<Category> categories;
             using (var context = new ApplicationContext())
             {
-                 categories = new List<Category>();
+                categories = new List<Category>();
                 categories = context.Categories.ToList();
             }
             return categories;
@@ -49,7 +50,6 @@ namespace Todoist.Model
 
         internal void Add(string title, string description, string status, int categoryId)
         {
-            //var category = Categories.Find(x => x.Id == categoryId);
             var newGoal = new Goal()
             {
                 Title = title,
@@ -65,26 +65,27 @@ namespace Todoist.Model
                 context.SaveChanges();
             }
 
+            //var category = Categories.Find(x => x.Id == categoryId);
             //newGoal.Category = category;
             //Goals.Add(newGoal);
         }
 
-        internal void Update(List<Goal> goals, Goal goalForUpdate, List<string> newProperties, int menuItem)
+        internal void Update(Goal goalForUpdate, List<string> newProperties)
         {
-            int indexGoal = --menuItem;
-            if (newProperties[0] != null)
-                goalForUpdate.Title = newProperties[0];
-            if (newProperties[1] != null)
-                goalForUpdate.Description = newProperties[1];
-            if (newProperties[2] != null)
-                goalForUpdate.CategoryID = Convert.ToInt32(newProperties[2]);
-            if (newProperties[3] != null)
-                goalForUpdate.Status = newProperties[3];
-
-            goals[indexGoal] = goalForUpdate;
-                
             using (var context = new ApplicationContext())
+            {
+                var newGoal = context.Goals.Where(x => x.Id == goalForUpdate.Id).FirstOrDefault();
+                if (newProperties[0] != null)
+                    newGoal.Title = newProperties[0];
+                if (newProperties[1] != null)
+                    newGoal.Description = newProperties[1];
+                if (newProperties[2] != null)
+                    newGoal.CategoryID = Convert.ToInt32(newProperties[2]);
+                if (newProperties[3] != null)
+                    newGoal.Status = newProperties[3];
+
                 context.SaveChanges();
+            }
         }
 
         internal void Delete(Goal searchElementGoal)

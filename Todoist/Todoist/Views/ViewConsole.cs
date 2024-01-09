@@ -23,6 +23,7 @@ namespace Todoist.Views
         {
             for (int i = 0; i < categories.Count; i++)
                 Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
+            Console.Write("\n");
         }
 
         internal void OutputCategories(List<Category> categories, List<Goal> goals)
@@ -35,6 +36,7 @@ namespace Todoist.Views
         {
             for (int i = 0; i < statuses.Length; i++)
                 Console.WriteLine($" {i + 1}. {statuses[i]}");
+            Console.Write("\n");
         }
     }
 }

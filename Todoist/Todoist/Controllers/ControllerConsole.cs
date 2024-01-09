@@ -107,13 +107,14 @@ namespace Todoist.Controllers
             string descriptionOfGoal = GetNewDescriptionOfGoal();
             updatedProperties.Add(descriptionOfGoal);
 
-            string categoryOfGoal = GetNewCategoryOfGoal();
+            string categoryOfGoal = GetNewIDCategoryOfGoal();
             updatedProperties.Add(categoryOfGoal);
 
             string statusOfGoal = GetNewStatusOfGoal();
             updatedProperties.Add(statusOfGoal);
 
-            _modelConsole.Update(goals, goalForUpdate, updatedProperties, Convert.ToInt32(choice));
+            _modelConsole.Update(goalForUpdate, updatedProperties);
+            _viewConsole.Display(AppConsts.Common.TaskChanged);
         }
 
         internal void DeleteGoal()
@@ -133,7 +134,10 @@ namespace Todoist.Controllers
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
 
             if (choice == "1")
+            {
                 _modelConsole.Delete(searchedElementGoal);
+                _viewConsole.Display(AppConsts.Common.TaskDelete);
+            }
         }
 
 
@@ -171,20 +175,18 @@ namespace Todoist.Controllers
                 return _viewConsole.GetEmpty();
         }
 
-        internal string GetNewCategoryOfGoal()
+        internal string GetNewIDCategoryOfGoal()
         {
             List<Category> categories = new List<Category>();
             string choice;
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Category} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Category}\n{AppConsts.Common.Menu.YesNoSelectable}");
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
                 _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
                 categories = _modelConsole.GetCategories();
                 _viewConsole.OutputCategoryNames(categories);
-                choice = CheckValidation(_viewConsole.GetInput(), categories.Count);
-                int newCategoryInt = Convert.ToInt32(choice);
-                return categories[newCategoryInt--].NameCategory;
+                return CheckValidation(_viewConsole.GetInput(), categories.Count);
             }
             else
                 return _viewConsole.GetEmpty();
@@ -195,7 +197,7 @@ namespace Todoist.Controllers
             string[] statuses;
             string choice;
 
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Status} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Status}\n{AppConsts.Common.Menu.YesNoSelectable}");
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {

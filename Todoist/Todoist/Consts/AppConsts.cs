@@ -20,6 +20,8 @@
             }
 
             internal const string TaskAdded = " \nTask successfully added!\n";
+            internal const string TaskChanged = " \nTask successfully changed!\n";
+            internal const string TaskDelete = " \nTask successfully deleted!\n";
         }
         internal class Suggestion
         {
@@ -46,7 +48,7 @@
                 public const string Title = " Do you want to update TITLE of chosen task?";
                 public const string Description = " Do you want to update DESCRIPTION of chosen task?";
                 public const string Category = " Do you want to update CATEGORY of chosen task?";
-                public const string Status = " Do you want to update STATUS of chosen task?\n";
+                public const string Status = " Do you want to update STATUS of chosen task?";
             }
 
             internal class ForDelete

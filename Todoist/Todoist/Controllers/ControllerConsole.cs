@@ -16,9 +16,9 @@ namespace Todoist.Controllers
             _viewConsole = viewConsole;
         }
         
-        internal void AddGoal()
+        internal async void AddGoalAsync()
         {
-            List<Category> categories = _modelConsole.GetCategories();
+            Task<List<Category>> categories = _modelConsole.GetCategoriesAsync();
             string[] statuses = _modelConsole.GetStatuses();
             int categoryId;
             string choiceCategory;
@@ -47,28 +47,28 @@ namespace Todoist.Controllers
 
             _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
             _viewConsole.OutputCategoryNames(categories);
-            choiceCategory = CheckValidation(_viewConsole.GetInput(), categories.Count);
-            categoryId = categories[Convert.ToInt32(choiceCategory) - 1].Id;
+            choiceCategory = CheckValidation(_viewConsole.GetInput(), categories.Result.Count);
+            categoryId = categories.Result[Convert.ToInt32(choiceCategory) - 1].Id;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
             _viewConsole.OutputOfAvaliableStatuses(statuses);
             choiceStatus = CheckValidation(_viewConsole.GetInput(), statuses.Length);
             string status = _modelConsole.SearchEnumByIndex(choiceStatus);
 
-            _modelConsole.Add(title, description, status, categoryId);
+            await _modelConsole.AddAsync(title, description, status, categoryId);
             _viewConsole.Display(AppConsts.Common.TaskAdded);
         }
 
         internal void ViewGoalList()
         {
-            List<Category> categories = _modelConsole.GetCategories();
-            List<Goal> goals = _modelConsole.GetGoals();
+            Task<List<Category>> categories = _modelConsole.GetCategoriesAsync();
+            Task<List<Goal>> goals = _modelConsole.GetGoalsAsync();
             _viewConsole.OutputCategories(categories, goals);
         }
-
-        internal void FindGoal()
+        
+        internal async Task FindGoal()
         {
-            List<Goal> goals = _modelConsole.GetGoals();
+            List<Goal> goals = await _modelConsole.GetGoalsAsync();
             List<Goal> results;
             string searchWord;
             bool isValid;
@@ -89,15 +89,15 @@ namespace Todoist.Controllers
                 _viewConsole.OutputGoals(results);
         }
 
-        internal void UpdateGoal()
+        internal async void UpdateGoalAsync()
         {
-            List<Goal> goals = _modelConsole.GetGoals();
+            Task<List<Goal>> goals = _modelConsole.GetGoalsAsync();
             List<string> updatedProperties = new List<string>();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal + "\n");
             _viewConsole.OutputGoals(goals);
-            choice = CheckValidation(_viewConsole.GetInput(), goals.Count);
+            choice = CheckValidation(_viewConsole.GetInput(), goals.Result.Count);
             var goalForUpdate = _modelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
             _viewConsole.Display(goalForUpdate);
 
@@ -113,19 +113,19 @@ namespace Todoist.Controllers
             string statusOfGoal = GetNewStatusOfGoal();
             updatedProperties.Add(statusOfGoal);
 
-            _modelConsole.Update(goalForUpdate, updatedProperties);
+            await _modelConsole.UpdateAsync(goalForUpdate, updatedProperties);
             _viewConsole.Display(AppConsts.Common.TaskChanged);
         }
 
-        internal void DeleteGoal()
+        internal async void DeleteGoalAsync()
         {
-            List<Goal> Goals = _modelConsole.GetGoals();
+            Task<List<Goal>> Goals = _modelConsole.GetGoalsAsync();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal);
             _viewConsole.OutputGoals(Goals);
 
-            choice = CheckValidation(_viewConsole.GetInput(), Goals.Count);
+            choice = CheckValidation(_viewConsole.GetInput(), Goals.Result.Count);
 
             var searchedElementGoal = _modelConsole.SearchElementByIndex(Goals, Convert.ToInt32(choice));
             _viewConsole.Display(searchedElementGoal);
@@ -135,7 +135,7 @@ namespace Todoist.Controllers
 
             if (choice == "1")
             {
-                _modelConsole.Delete(searchedElementGoal);
+                await _modelConsole.DeleteAsync(searchedElementGoal);
                 _viewConsole.Display(AppConsts.Common.TaskDelete);
             }
         }
@@ -177,16 +177,16 @@ namespace Todoist.Controllers
 
         internal string GetNewIDCategoryOfGoal()
         {
-            List<Category> categories = new List<Category>();
+            Task<List<Category>> categories;
             string choice;
             _viewConsole.Display($"{AppConsts.Question.ForUpdate.Category}\n{AppConsts.Common.Menu.YesNoSelectable}");
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
                 _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
-                categories = _modelConsole.GetCategories();
+                categories = _modelConsole.GetCategoriesAsync();
                 _viewConsole.OutputCategoryNames(categories);
-                return CheckValidation(_viewConsole.GetInput(), categories.Count);
+                return CheckValidation(_viewConsole.GetInput(), categories.Result.Count);
             }
             else
                 return _viewConsole.GetEmpty();
@@ -238,7 +238,7 @@ namespace Todoist.Controllers
         internal void CheckAndImplementTheStartMenuItem(string choice)
         {
             if (choice == "1")
-                AddGoal();
+                AddGoalAsync();
 
             else if (choice == "2")
                 ViewGoalList();
@@ -247,10 +247,10 @@ namespace Todoist.Controllers
                 FindGoal();
 
             else if (choice == "4")
-                UpdateGoal();
+                UpdateGoalAsync();
 
             else if (choice == "5")
-                DeleteGoal();
+                DeleteGoalAsync();
 
             else if (choice == "6")
                 Environment.Exit(0);

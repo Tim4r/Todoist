@@ -14,9 +14,9 @@ namespace Todoist.Model
             return goals.FindAll(item => item.Title.Contains(searchWord) || item.Description.Contains(searchWord));
         }
 
-        internal Goal? SearchElementByIndex(List<Goal> goals, int menuItem)
+        internal Goal? SearchElementByIndex(Task<List<Goal>> goals, int menuItem)
         {
-            return goals[--menuItem];
+            return goals.Result[--menuItem];
         }
 
         internal string SearchEnumByIndex(string index)
@@ -26,29 +26,19 @@ namespace Todoist.Model
             return Convert.ToString(elementOfEnum);
         }
 
-        internal List<Category> GetCategories()
+        internal async Task<List<Category>> GetCategoriesAsync()
         {
-            List<Category> categories;
             using (var context = new ApplicationContext())
-            {
-                categories = new List<Category>();
-                categories = context.Categories.ToList();
-            }
-            return categories;
+                return await context.Categories.ToListAsync();
         }
 
-        internal List<Goal> GetGoals()
+        internal async Task<List<Goal>> GetGoalsAsync()
         {
-            List<Goal> goals;
             using (var context = new ApplicationContext())
-            {
-                goals = new List<Goal>();
-                goals = context.Goals.ToList();
-            }
-            return goals;
+              return await context.Goals.ToListAsync();
         }
 
-        internal void Add(string title, string description, string status, int categoryId)
+        internal async Task AddAsync(string title, string description, string status, int categoryId)
         {
             var newGoal = new Goal()
             {
@@ -61,8 +51,8 @@ namespace Todoist.Model
 
             using (var context = new ApplicationContext())
             {
-                context.Goals.Add(newGoal);
-                context.SaveChanges();
+                await context.Goals.AddAsync(newGoal);
+                await context.SaveChangesAsync();
             }
 
             //var category = Categories.Find(x => x.Id == categoryId);
@@ -70,11 +60,11 @@ namespace Todoist.Model
             //Goals.Add(newGoal);
         }
 
-        internal void Update(Goal goalForUpdate, List<string> newProperties)
+        internal async Task UpdateAsync(Goal goalForUpdate, List<string> newProperties)
         {
             using (var context = new ApplicationContext())
             {
-                var newGoal = context.Goals.Where(x => x.Id == goalForUpdate.Id).FirstOrDefault();
+                var newGoal = await context.Goals.Where(x => x.Id == goalForUpdate.Id).FirstOrDefaultAsync();
                 if (newProperties[0] != null)
                     newGoal.Title = newProperties[0];
                 if (newProperties[1] != null)
@@ -84,16 +74,16 @@ namespace Todoist.Model
                 if (newProperties[3] != null)
                     newGoal.Status = newProperties[3];
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        internal void Delete(Goal searchElementGoal)
+        internal async Task DeleteAsync(Goal searchElementGoal)
         {
             using (var context = new ApplicationContext())
             {
                 context.Goals.Remove(searchElementGoal);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

@@ -6,7 +6,7 @@ namespace Todoist
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.CancelKeyPress += new ConsoleCancelEventHandler(exitHandler);
 
@@ -16,7 +16,7 @@ namespace Todoist
 
             while (true)
             {
-                controllerConsole.StartApplication();
+               await controllerConsole.StartApplication();
             }
         }
 

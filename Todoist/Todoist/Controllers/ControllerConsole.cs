@@ -15,47 +15,20 @@ namespace Todoist.Controllers
             _modelConsole = modelConsole;
             _viewConsole = viewConsole;
         }
-        
-        internal async void AddGoalAsync()
+
+        internal async Task AddGoalAsync()
         {
-            Task<List<Category>> categories = _modelConsole.GetCategoriesAsync();
-            string[] statuses = _modelConsole.GetStatuses();
-            int categoryId;
-            string choiceCategory;
-            string choiceStatus;
-            string title;
-            string description;
-            bool isValid;
+            string newTitle;
+            string newDescription;
+            int IdOfSelectedCategory;
+            string selectedStatus;
+            
+            newTitle = CreateAndCheckTitleOfGoal();
+            newDescription = CreateAndCheckDescriptionOfGoal();
+            IdOfSelectedCategory = SelectAndFindIdOfCategory(_modelConsole.GetCategoriesAsync());
+            selectedStatus = SelectAndCheckStatusOfCategory(_modelConsole.GetStatuses());
 
-            _viewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);
-            do
-            {
-                title = _viewConsole.GetInput();
-                isValid = CheckLengthTitleOrDescription(title, AppConsts.Common.NumberOf.MaximumCharactersForTitleAndDescription);
-                if (!isValid) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
-            }
-            while (!isValid);
-
-            _viewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);
-            do
-            {
-                description = _viewConsole.GetInput();
-                isValid = CheckLengthTitleOrDescription(title, AppConsts.Common.NumberOf.MaximumCharactersForTitleAndDescription);
-                if (!isValid) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
-            }
-            while (!isValid);
-
-            _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
-            _viewConsole.OutputCategoryNames(categories);
-            choiceCategory = CheckValidation(_viewConsole.GetInput(), categories.Result.Count);
-            categoryId = categories.Result[Convert.ToInt32(choiceCategory) - 1].Id;
-
-            _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
-            _viewConsole.OutputOfAvaliableStatuses(statuses);
-            choiceStatus = CheckValidation(_viewConsole.GetInput(), statuses.Length);
-            string status = _modelConsole.SearchEnumByIndex(choiceStatus);
-
-            await _modelConsole.AddAsync(title, description, status, categoryId);
+            await _modelConsole.AddAsync(newTitle, newDescription, selectedStatus, IdOfSelectedCategory);
             _viewConsole.Display(AppConsts.Common.TaskAdded);
         }
 
@@ -66,21 +39,19 @@ namespace Todoist.Controllers
             _viewConsole.OutputCategories(categories, goals);
         }
         
-        internal async Task FindGoal()
+        internal async Task FindGoalAsync()
         {
             List<Goal> goals = await _modelConsole.GetGoalsAsync();
             List<Goal> results;
             string searchWord;
-            bool isValid;
 
             _viewConsole.Display(AppConsts.Suggestion.Enter.WordForSearch);
             do
             {
                 searchWord = _viewConsole.GetInput();
-                isValid = CheckLengthTitleOrDescription(searchWord, AppConsts.Common.NumberOf.MaximumCharactersForTitleAndDescription);
-                if (!isValid) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
+                if (!(searchWord.Length <= AppConsts.Common.NumberOf.MaximumCharactersForDescription)) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
             }
-            while (!isValid);
+            while (!(searchWord.Length <= AppConsts.Common.NumberOf.MaximumCharactersForDescription));
 
             results = _modelConsole.SearchElementsByTitleAndDescription(goals, searchWord);
             if (results.Count == 0)
@@ -89,7 +60,7 @@ namespace Todoist.Controllers
                 _viewConsole.OutputGoals(results);
         }
 
-        internal async void UpdateGoalAsync()
+        internal async Task UpdateGoalAsync()
         {
             Task<List<Goal>> goals = _modelConsole.GetGoalsAsync();
             List<string> updatedProperties = new List<string>();
@@ -117,7 +88,7 @@ namespace Todoist.Controllers
             _viewConsole.Display(AppConsts.Common.TaskChanged);
         }
 
-        internal async void DeleteGoalAsync()
+        internal async Task DeleteGoalAsync()
         {
             Task<List<Goal>> Goals = _modelConsole.GetGoalsAsync();
             string choice;
@@ -140,6 +111,49 @@ namespace Todoist.Controllers
             }
         }
 
+        internal string CreateAndCheckTitleOfGoal()
+        {
+            string newTitle;
+            _viewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);
+            do
+            {
+                newTitle = _viewConsole.GetInput();
+                if (!(newTitle.Length <= AppConsts.Common.NumberOf.MaximumCharactersForTitle)) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
+            }
+            while (!(newTitle.Length <= AppConsts.Common.NumberOf.MaximumCharactersForTitle));
+            return newTitle;
+        }
+
+        internal string CreateAndCheckDescriptionOfGoal()
+        {
+            string newDescription;
+            _viewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);
+            do
+            {
+                newDescription = _viewConsole.GetInput();
+                if (!(newDescription.Length <= AppConsts.Common.NumberOf.MaximumCharactersForDescription)) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
+            }
+            while (!(newDescription.Length <= AppConsts.Common.NumberOf.MaximumCharactersForDescription));
+            return newDescription;
+        }
+
+        internal int SelectAndFindIdOfCategory(Task<List<Category>> categories)
+        {
+            string selectedCategory;
+            _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
+            _viewConsole.OutputCategoryNames(categories);
+            selectedCategory = CheckValidation(_viewConsole.GetInput(), categories.Result.Count);
+            return categories.Result[Convert.ToInt32(selectedCategory) - 1].Id;
+        }
+
+        internal string SelectAndCheckStatusOfCategory(string[] statuses)
+        {
+            string selectedStatus;
+            _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+            _viewConsole.OutputOfAvaliableStatuses(statuses);
+            selectedStatus = CheckValidation(_viewConsole.GetInput(), statuses.Length);
+            return _modelConsole.SearchEnumByIndex(selectedStatus);
+        }
 
         internal string GetNewTitleOfGoal()
         {
@@ -211,12 +225,6 @@ namespace Todoist.Controllers
                 return _viewConsole.GetEmpty();
         }
 
-
-        internal bool CheckLengthTitleOrDescription(string titleOrDescription, int maximumCharacters)
-        {
-            return titleOrDescription.Length <= maximumCharacters;
-        }
-
         private bool Validation(string testedItem, int numberOfElementsMenu)
         {
             return !string.IsNullOrEmpty(testedItem)
@@ -235,33 +243,33 @@ namespace Todoist.Controllers
             return choice;
         }
 
-        internal void CheckAndImplementTheStartMenuItem(string choice)
+        internal async Task CheckAndImplementTheStartMenuItem(string choice)
         {
             if (choice == "1")
-                AddGoalAsync();
+                await AddGoalAsync();
 
             else if (choice == "2")
                 ViewGoalList();
 
             else if (choice == "3")
-                FindGoal();
+                await FindGoalAsync();
 
             else if (choice == "4")
-                UpdateGoalAsync();
+                await UpdateGoalAsync();
 
             else if (choice == "5")
-                DeleteGoalAsync();
+                await DeleteGoalAsync();
 
             else if (choice == "6")
                 Environment.Exit(0);
         }
 
-        internal void StartApplication()
+        internal async Task StartApplication()
         {
             string choice;
             _viewConsole.Display(AppConsts.Common.Menu.Start + AppConsts.Common.Menu.StartItemSelectable);
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.StartItems);
-            CheckAndImplementTheStartMenuItem(choice);
+            await CheckAndImplementTheStartMenuItem(choice);
         }
     }
 }

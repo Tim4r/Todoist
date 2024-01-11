@@ -16,7 +16,8 @@
                 internal const int StartItems = 6;
                 internal const int YesOrNoItems = 2;
                 internal const int ElementsForUpdate = 4;
-                internal const int MaximumCharactersForTitleAndDescription = 30;
+                internal const int MaximumCharactersForTitle = 30;
+                internal const int MaximumCharactersForDescription = 100;
             }
 
             internal const string TaskAdded = " \nTask successfully added!\n";

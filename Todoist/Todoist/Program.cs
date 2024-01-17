@@ -16,7 +16,8 @@ namespace Todoist
 
             while (true)
             {
-               await controllerConsole.StartApplication();
+                //(controllerConsole.StartApplication()).Wait();
+                await controllerConsole.StartApplication();
             }
         }
 

@@ -25,17 +25,17 @@ namespace Todoist.Views
                 Console.WriteLine($" {i + 1}.{tasks.Result[i]}\n");
         }
 
-        internal void OutputCategoryNames(Task<List<Category>> categories)
+        internal void OutputCategoryNames(List<Category> categories)
         {
-            for (int i = 0; i < categories.Result.Count; i++)
-                Console.WriteLine($" {i + 1}. {categories.Result[i].NameCategory}");
+            for (int i = 0; i < categories.Count; i++)
+                Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
             Console.Write("\n");
         }
 
-        internal void OutputCategories(Task<List<Category>> categories, Task<List<Goal>> goals)
+        internal void OutputCategories(List<Category> categories, List<Goal> goals)
         {
-            for (int i = 0; i < categories.Result.Count; i++)
-                Console.WriteLine($" {i + 1}. {categories.Result[i].ToString(goals.Result.Where(x => x.CategoryID == i+1).ToList())}");
+            for (int i = 0; i < categories.Count; i++)
+                Console.WriteLine($" {i + 1}. {categories[i].ToString(goals.Where(x => x.CategoryID == i+1).ToList())}");
         }
 
         internal void OutputOfAvaliableStatuses(string[] statuses)

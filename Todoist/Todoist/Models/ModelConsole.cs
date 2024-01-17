@@ -9,14 +9,14 @@ namespace Todoist.Model
     {
         internal Func<string[]> GetStatuses = () => System.Enum.GetNames(typeof(StatusType));
 
-        internal List<Goal> SearchElementsByTitleAndDescription(List<Goal> goals, string searchWord)
+        internal IEnumerable<Goal> SearchElementsByTitleAndDescription(List<Goal> goals, string searchWord)
         {
             return goals.FindAll(item => item.Title.Contains(searchWord) || item.Description.Contains(searchWord));
         }
 
-        internal Goal? SearchElementByIndex(Task<List<Goal>> goals, int menuItem)
+        internal Goal? SearchElementByIndex(List<Goal> goals, int menuItem)
         {
-            return goals.Result[--menuItem];
+            return goals[--menuItem];
         }
 
         internal string SearchEnumByIndex(string index)
@@ -26,19 +26,19 @@ namespace Todoist.Model
             return Convert.ToString(elementOfEnum);
         }
 
-        internal async Task<List<Category>> GetCategoriesAsync()
+        internal async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             using (var context = new ApplicationContext())
                 return await context.Categories.ToListAsync();
         }
 
-        internal async Task<List<Goal>> GetGoalsAsync()
+        internal async Task<IEnumerable<Goal>> GetGoalsAsync()
         {
             using (var context = new ApplicationContext())
               return await context.Goals.ToListAsync();
         }
 
-        internal async Task AddAsync(string title, string description, string status, int categoryId)
+        internal async Task AddGoalAsync(string title, string description, string status, int categoryId)
         {
             var newGoal = new Goal()
             {
@@ -60,25 +60,25 @@ namespace Todoist.Model
             //Goals.Add(newGoal);
         }
 
-        internal async Task UpdateAsync(Goal goalForUpdate, List<string> newProperties)
+        internal async Task UpdateGoalAsync(Goal goalForUpdate, string titleOfGoal, string descriptionOfGoal, string categoryOfGoal, string statusOfGoal)
         {
             using (var context = new ApplicationContext())
             {
                 var newGoal = await context.Goals.Where(x => x.Id == goalForUpdate.Id).FirstOrDefaultAsync();
-                if (newProperties[0] != null)
-                    newGoal.Title = newProperties[0];
-                if (newProperties[1] != null)
-                    newGoal.Description = newProperties[1];
-                if (newProperties[2] != null)
-                    newGoal.CategoryID = Convert.ToInt32(newProperties[2]);
-                if (newProperties[3] != null)
-                    newGoal.Status = newProperties[3];
+                if (titleOfGoal != null)
+                    newGoal.Title = titleOfGoal;
+                if (descriptionOfGoal != null)
+                    newGoal.Description = descriptionOfGoal;
+                if (categoryOfGoal != null)
+                    newGoal.CategoryID = Convert.ToInt32(categoryOfGoal);
+                if (statusOfGoal != null)
+                    newGoal.Status = statusOfGoal;
 
                 await context.SaveChangesAsync();
             }
         }
 
-        internal async Task DeleteAsync(Goal searchElementGoal)
+        internal async Task DeleteGoalAsync(Goal searchElementGoal)
         {
             using (var context = new ApplicationContext())
             {

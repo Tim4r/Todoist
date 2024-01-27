@@ -32,7 +32,7 @@ namespace Todoist.Controllers
             _viewConsole.Display(AppConsts.Common.TaskAdded);
         }
 
-        internal async void ViewGoalList()
+        internal async Task ViewGoalList()
         {
             IEnumerable<Category> categories = await _modelConsole.GetCategoriesAsync();
             IEnumerable<Goal> goals = await _modelConsole.GetGoalsAsync();
@@ -73,7 +73,7 @@ namespace Todoist.Controllers
 
             string titleOfGoal = GetNewTitleOfGoal();
             string descriptionOfGoal = GetNewDescriptionOfGoal();
-            string categoryOfGoal = GetNewIDCategoryOfGoal().ToString();
+            string categoryOfGoal = await GetNewIDCategoryOfGoal();
             string statusOfGoal = GetNewStatusOfGoal();
             
             await _modelConsole.UpdateGoalAsync(goalForUpdate, titleOfGoal, descriptionOfGoal, categoryOfGoal, statusOfGoal);
@@ -241,7 +241,7 @@ namespace Todoist.Controllers
                 await AddGoalAsync();
 
             else if (choice == "2")
-                ViewGoalList();
+                await ViewGoalList();
 
             else if (choice == "3")
                 await FindGoalAsync();

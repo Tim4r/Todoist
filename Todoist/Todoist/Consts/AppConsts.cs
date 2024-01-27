@@ -28,8 +28,8 @@
         {
             internal class Enter
             {
-                public const string NewTitle = " Enter the TITLE of your task (maximum 30):\n";
-                public const string NewDescription = " Enter the DESCRIPTION of your task (maximum 100):\n";
+                public const string NewTitle = " Enter the TITLE of your task (maximum of 30 characters):\n";
+                public const string NewDescription = " Enter the DESCRIPTION of your task (maximum of 100 characters):\n";
                 public const string WordForSearch = " Enter a word to search by TITLE or DESCRIPTION:";
                 public const string NotFound = "\n Nothing was found for your request...\n";
                 public const string ValidValue = "Please, enter a valid value!:)\n";

@@ -1,29 +1,35 @@
-﻿using Todoist.Controllers;
-using Todoist.Model;
+﻿using Todoist.BL;
+using Todoist.Controllers;
+using Todoist.Core.Consts;
 using Todoist.Views;
 
-namespace Todoist
+namespace Todoist;
+
+internal static class Program
 {
-    internal class Program
+    static async Task Main(string[] args)
     {
-        static async Task Main(string[] args)
+        Console.CancelKeyPress += new ConsoleCancelEventHandler(ExitHandler);
+
+        var viewConsole = new ViewConsole();
+        var controllerConsole = new ControllerConsole(new ViewConsole(), new BusinessLogic());
+
+        while (true)
         {
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(exitHandler);
-
-            var modelConsole = new ModelConsole();
-            var viewConsole = new ViewConsole();
-            var controllerConsole = new ControllerConsole(modelConsole, viewConsole);
-
-            while (true)
-            {
-                //(controllerConsole.StartApplication()).Wait();
-                await controllerConsole.StartApplication();
-            }
+            await StartApplication(viewConsole, controllerConsole);
         }
+    }
 
-        private static void exitHandler(object sender, ConsoleCancelEventArgs args)
-        {
-            Environment.Exit(0);
-        }
+    internal static async Task StartApplication(ViewConsole viewConsole, ControllerConsole controllerConsole)
+    {
+        string choice;
+        viewConsole.Display(AppConsts.Common.Menu.Start + AppConsts.Common.Menu.StartItemSelectable);
+        choice = controllerConsole.CheckValidate(viewConsole.GetInput(), AppConsts.Common.NumberOf.StartItems);
+        await controllerConsole.DisplayStartMenu(choice);
+    }
+
+    private static void ExitHandler(object sender, ConsoleCancelEventArgs args)
+    {
+        Environment.Exit(0);
     }
 }

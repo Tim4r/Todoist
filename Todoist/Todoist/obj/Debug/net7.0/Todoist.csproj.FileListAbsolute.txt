@@ -87,12 +87,10 @@ D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.pdb
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Azure.Core.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Azure.Identity.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Humanizer.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Caching.Abstractions.dll
@@ -100,7 +98,6 @@ D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Ca
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Logging.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
@@ -115,8 +112,6 @@ D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.IdentityModel
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.CodeDom.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Drawing.Common.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
@@ -157,4 +152,10 @@ D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Fi
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Text.Encodings.Web.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Text.Json.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\appsettings.json
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Context\appsettings.json
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.BusinessLogic.dll
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Core.dll
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Data.dll
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Core.pdb
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Data.pdb
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.BusinessLogic.pdb

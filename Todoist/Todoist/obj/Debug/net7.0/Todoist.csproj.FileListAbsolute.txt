@@ -152,10 +152,10 @@ D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Microsoft.Extensions.Fi
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Text.Encodings.Web.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\System.Text.Json.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\runtimes\browser\lib\net7.0\System.Text.Encodings.Web.dll
-D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Context\appsettings.json
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.BusinessLogic.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Core.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Data.dll
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Core.pdb
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.Data.pdb
 D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Todoist.BusinessLogic.pdb
+D:\Repositories\Todoist\Todoist\Todoist\bin\Debug\net7.0\Context\appsettings.json

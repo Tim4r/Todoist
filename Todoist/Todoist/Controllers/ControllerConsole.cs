@@ -1,7 +1,7 @@
 ﻿using Todoist.Views;
 using Todoist.Core.Models;
-using Todoist.BL;
 using Todoist.Core.Consts;
+using Todoist.BL;
 
 namespace Todoist.Controllers;
 
@@ -28,7 +28,7 @@ internal class ControllerConsole
         IdOfSelectedCategory = SelectCategory((await _businessLogic.GetCategoriesAsync()).ToList());
         selectedStatus = SelectStatus(_businessLogic.GetStatuses());
         
-        await _businessLogic.CreateGoalAsync(newTitle, newDescription, selectedStatus, IdOfSelectedCategory);
+        await _businessLogic.CreateAsync(newTitle, newDescription, selectedStatus, IdOfSelectedCategory);
         _viewConsole.Display(AppConsts.Common.TaskAdded);
     }
 
@@ -76,7 +76,7 @@ internal class ControllerConsole
         string categoryOfGoal = await GetNewIDCategoryOfGoal();
         string statusOfGoal = GetNewStatusOfGoal();
         
-        await _businessLogic.UpdateGoalAsync(goalForUpdate, titleOfGoal, descriptionOfGoal, categoryOfGoal, statusOfGoal);
+        await _businessLogic.UpdateAsync(goalForUpdate, titleOfGoal, descriptionOfGoal, categoryOfGoal, statusOfGoal);
         _viewConsole.Display(AppConsts.Common.TaskChanged);
     }
 
@@ -98,7 +98,7 @@ internal class ControllerConsole
 
         if (choice == "1")
         {
-            await _businessLogic.DeleteGoalAsync(searchedElementGoal);
+            await _businessLogic.DeleteAsync(searchedElementGoal);
             _viewConsole.Display(AppConsts.Common.TaskDelete);
         }
     }

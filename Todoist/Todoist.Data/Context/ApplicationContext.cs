@@ -6,6 +6,12 @@ namespace Todoist.Data.Context;
 
 public class ApplicationContext : DbContext
 {
+    public ApplicationContext()
+    {
+        Database.EnsureDeleted();
+        Database.EnsureCreated();
+    }
+
     public DbSet<Category> Categories { get; set; }
     public DbSet<Goal> Goals { get; set; }
 

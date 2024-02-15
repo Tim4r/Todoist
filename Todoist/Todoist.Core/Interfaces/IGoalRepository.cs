@@ -4,10 +4,9 @@ namespace Todoist.Core.Interfaces;
 
 public interface IGoalRepository
 {
-    //public Task<IEnumerable<Goal>> InsertAsync(Goal goal);
-    //public Task<IEnumerable<Goal>> UpdateAsync(Goal goal);
-    //public Task<IEnumerable<Category>> GetCategoriesAsync();
-    //public Task<IEnumerable<Goal>> GetGoalsAsync();
-    //public Task DeleteGoalAsync(Goal goal);
-    //public Task Save();
+    public Task CreateAsync(Goal goal);
+    public Task UpdateAsync(Goal goalForUpdate, string titleOfGoal, string descriptionOfGoal, string categoryOfGoal, string statusOfGoal);
+    public Task<IEnumerable<Category>> GetCategoriesAsync();
+    public Task<IEnumerable<Goal>> GetGoalsAsync();
+    public Task DeleteAsync(Goal goal);
 }

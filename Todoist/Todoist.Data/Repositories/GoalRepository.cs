@@ -1,51 +1,44 @@
-﻿using Todoist.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Todoist.Core.Interfaces;
+using Todoist.Core.Models;
 using Todoist.Data.Context;
 
 namespace Todoist.Repositories;
 
-class GoalRepository : IGoalRepository
+public class GoalRepository : IGoalRepository
 {
     private readonly ApplicationContext _context;
 
-    public GoalRepository()
+    public GoalRepository(ApplicationContext context) => _context = context;
+
+    public async Task CreateAsync(Goal goal)
     {
-        _context = new ApplicationContext();
+        await _context.Goals.AddAsync(goal);
+        await _context.SaveChangesAsync();
     }
 
-    public GoalRepository(ApplicationContext context)
+    public async Task UpdateAsync(Goal goalForUpdate, string titleOfGoal, string descriptionOfGoal, string categoryOfGoal, string statusOfGoal)
     {
-        _context = context;
+        var newGoal = await _context.Goals.Where(x => x.Id == goalForUpdate.Id).FirstOrDefaultAsync();
+        if (titleOfGoal != null)
+            newGoal.Title = titleOfGoal;
+        if (descriptionOfGoal != null)
+            newGoal.Description = descriptionOfGoal;
+        if (categoryOfGoal != null)
+            newGoal.CategoryID = Convert.ToInt32(categoryOfGoal);
+        if (statusOfGoal != null)
+            newGoal.Status = statusOfGoal;
+    await _context.SaveChangesAsync();
     }
 
-    //internal Task<IEnumerable<Goal>> InsertAsync(Goal goal)
-    //{
-        
-    //}
+    public async Task<IEnumerable<Category>> GetCategoriesAsync() => await _context.Categories.ToListAsync();
 
-    //internal Task<IEnumerable<Goal>> UpdateAsync(Goal goal)
-    //{
+    public async Task<IEnumerable<Goal>> GetGoalsAsync() => await _context.Goals.ToListAsync();
 
-    //}
-
-    //internal Task<IEnumerable<Category>> GetCategoriesAsync()
-    //{
-
-    //}
-
-    //internal Task<IEnumerable<Goal>> GetGoalsAsync()
-    //{
-
-    //}
-
-    //internal Task DeleteGoalAsync(Goal goal)
-    //{
-
-    //}
-
-
-    public void Save()
+    public async Task DeleteAsync(Goal goal)
     {
-        _context.SaveChanges();
+        _context.Goals.Remove(goal);
+        await _context.SaveChangesAsync();
     }
 
     private bool disposed = false;
